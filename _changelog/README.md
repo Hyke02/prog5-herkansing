@@ -30,10 +30,14 @@
 <h1>02/01/2025</h1>
 
 <h2>Added</h2>
-<li></li>
+<li>Simple frontend for the home/index page</li>
+<li>Filter functionality searchbar and filter by species</li>
+
 
 <h2>Changed</h2>
-<strong>-</strong>
+<li>changed postcontroller to resource controller with full crud funtionality</li>
+<li>adjusted route so it's only accessible by users who are logged in</li>
+<li>Crud functionality</li>
 
 <h2>Fixed</h2>
 <strong>-</strong>

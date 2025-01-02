@@ -18,11 +18,45 @@
 <body>
     <nav></nav>
     <div class="flex">
-        <div class="filter-window bg-gray-500 w-2/12 h-screen">
+        <div class="filter-window flex justify-center p-4 bg-[#0E1113] border-r-2 border-gray-800 w-2/12 h-screen">
+            <form class="flex flex-col items-center" method="GET" action="{{ route('home') }}">
 
+                <div class="mb-5">
+                    <x-input-label for="search" class="sr-only"></x-input-label>
+                    <x-text-input class="w-full bg-[#333D42] border-none text-[#EEF1F3]" type="text" name="search" id="search" value="{{ request('search') }}" placeholder="Search posts"></x-text-input>
+                </div>
+
+                <div class="mb-5">
+                    <x-input-label class="sr-only" for="species">Filter by Species:</x-input-label>
+                    <select class="bg-transparent border-none text-[#EEF1F3] w-full" name="species" id="species">
+                        <option value="">All Species</option>
+                        @foreach($species as $speciesItem)
+                            <option value="{{ $speciesItem->id }}"
+                                {{ request('species') == $speciesItem->id ? 'selected' : '' }}>
+                                {{ $speciesItem->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <x-primary-button class="mb-5" type="submit">Filter</x-primary-button>
+            </form>
         </div>
-        <div class="post-window bg-gray-400 w-10/12 h-screen">
-
+        <div class="post-window flex flex-col items-center bg-[#0E1113] w-10/12 h-screen">
+            @foreach($posts as $post)
+                <div class="px-6 py-4 w-2/4">
+                    <h2 class="text-xl font-bold text-[#EEF1F3] capitalize">{{ $post->title }}</h2>
+                    <p class="text-[#EEF1F3]">{{ $post->text }}</p>
+                    @if($post->image)
+                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" width="100">
+                    @endif
+                    <p>Species:
+                        @foreach($post->species as $species)
+                            {{ $species->name }},
+                        @endforeach
+                    </p>
+                </div>
+            @endforeach
         </div>
     </div>
 </body>

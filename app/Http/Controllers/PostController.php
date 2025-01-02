@@ -11,10 +11,28 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with('species')->get();
-        return view('home', compact('posts'));
+        $query = Post::query();
+
+        if ($request->has('species') && $request->species != '') {
+            $query->whereHas('species', function ($query) use ($request) {
+                $query->where('species.id', $request->species);
+            });
+        }
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where(function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('text', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $posts = $query->with('species')->get();
+
+        $species = Species::all();
+
+        return view('home', compact('posts', 'species'));
     }
 
 
