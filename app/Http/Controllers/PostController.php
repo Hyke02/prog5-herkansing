@@ -8,50 +8,94 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $posts = Post::with('species')->get();
+        return view('home', compact('posts'));
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         $species = Species::all();
-        return view('posts.create', compact('species'));
+        return view('post.create', compact('species'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'text' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'species' => 'required|array', // Ensuring species are selected
+            'image' => 'nullable|image|max:2048',
+            'species' => 'array',
         ]);
-
-        // Handle the image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-        }
 
         $post = Post::create([
             'title' => $validated['title'],
             'text' => $validated['text'],
-            'image' => $imagePath ?? null,
+            'image' => $request->file('image')?->store('images'),
         ]);
 
-        // Attach selected species to the post
-        $post->species()->attach($validated['species']);
+        $post->species()->sync($validated['species'] ?? []);
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
 
-    public function index(Request $request)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Post $post)
     {
-        $posts = Post::with('species');
-
-        if ($request->has('species')) {
-            $posts = $posts->whereHas('species', function($query) use ($request) {
-                $query->whereIn('id', $request->species);
-            });
-        }
-
-        $posts = $posts->get();
-
-        return view('posts.index', compact('posts'));
+        return view('post.show', compact('post'));
     }
-};
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Post $post)
+    {
+        $species = Species::all();
+        return view('post.edit', compact('post', 'species'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Post $post)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'text' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+            'species' => 'array',
+        ]);
+
+        $post->update([
+            'title' => $validated['title'],
+            'text' => $validated['text'],
+            'image' => $request->file('image')?->store('images'),
+        ]);
+
+        $post->species()->sync($validated['species'] ?? []);
+
+        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+    }
+}

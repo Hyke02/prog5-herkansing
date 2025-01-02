@@ -18,6 +18,19 @@
 <li>posts table</li>
 <li>species table</li>
 <li>post_species table (many to many)</li>
+<li>post & species model</li>
+<li>post controller</li>
+
+<h2>Changed</h2>
+<strong>-</strong>
+
+<h2>Fixed</h2>
+<strong>-</strong>
+
+<h1>02/01/2025</h1>
+
+<h2>Added</h2>
+<li></li>
 
 <h2>Changed</h2>
 <strong>-</strong>
