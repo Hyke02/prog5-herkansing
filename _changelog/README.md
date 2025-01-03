@@ -47,6 +47,8 @@
 <h2>Added</h2>
 <li>Basic css for post.show page</li>
 <li>Basic css for post.create page</li>
+<li>Basic css for post.edit page</li>
+<li>Working show, create & edit page</li>
 
 
 <h2>Changed</h2>

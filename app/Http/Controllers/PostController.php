@@ -94,22 +94,33 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'text' => 'required|string',
             'image' => 'nullable|image|max:2048',
-            'species' => 'array',
+            'species' => 'nullable|array',
         ]);
 
-        $post->update([
-            'title' => $validated['title'],
-            'text' => $validated['text'],
-            'image' => $request->file('image')?->store('images'),
-        ]);
+        $post = Post::findOrFail($id);
+        $post->title = $validated['title'];
+        $post->text = $validated['text'];
 
-        $post->species()->sync($validated['species'] ?? []);
+        if ($request->hasFile('image')) {
+            if ($post->image) {
+                Storage::delete('public/' . $post->image);
+            }
+
+            $path = $request->file('image')->store('thumbnails', 'public');
+            $post->image = $path;
+        }
+
+        $post->save();
+
+        if (!empty($validated['species'])) {
+            $post->species()->sync($validated['species']);
+        }
 
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
