@@ -71,8 +71,10 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show($id)
     {
+        $post = Post::with('species')->findOrFail($id);
+
         return view('post.show', compact('post'));
     }
 

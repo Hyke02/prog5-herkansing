@@ -44,18 +44,20 @@
         </div>
         <div class="post-window flex flex-col items-center bg-[#0E1113] w-10/12 h-screen">
             @foreach($posts as $post)
-                <div class="px-6 py-4 w-2/4">
-                    <h2 class="text-xl font-bold text-[#EEF1F3] capitalize">{{ $post->title }}</h2>
-                    <p class="text-[#EEF1F3]">{{ $post->text }}</p>
-                    @if($post->image)
-                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" width="100">
-                    @endif
-                    <p>Species:
-                        @foreach($post->species as $species)
-                            {{ $species->name }},
-                        @endforeach
-                    </p>
-                </div>
+                <a href="{{ route('post.show', $post->id) }}" class="w-2/4 px-6 py-4 hover:bg-gray-300 rounded">
+                    <div>
+                        <h2 class="text-xl font-bold text-[#EEF1F3] capitalize">{{ $post->title }}</h2>
+                        <p class="text-[#EEF1F3]">{{ $post->text }}</p>
+                        @if($post->image)
+                            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" width="100">
+                        @endif
+                        <p>Species:
+                            @foreach($post->species as $species)
+                                {{ $species->name }},
+                            @endforeach
+                        </p>
+                    </div>
+                </a>
             @endforeach
         </div>
     </div>
