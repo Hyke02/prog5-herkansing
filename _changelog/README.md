@@ -41,3 +41,16 @@
 
 <h2>Fixed</h2>
 <strong>-</strong>
+
+<h1>03/01/2025</h1>
+
+<h2>Added</h2>
+<li>Basic css for post.show page</li>
+<li>Basic css for post.create page</li>
+
+
+<h2>Changed</h2>
+<li></li>
+
+<h2>Fixed</h2>
+<li>route post.show be able to be viewed to non logged in users</li>

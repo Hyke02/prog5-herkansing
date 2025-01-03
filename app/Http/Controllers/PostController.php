@@ -54,16 +54,20 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'text' => 'required|string',
             'image' => 'nullable|image|max:2048',
-            'species' => 'array',
+            'species' => 'nullable|array',
         ]);
+
+        $path = $request->file('image') ? $request->file('image')->store('thumbnails', 'public') : null;
 
         $post = Post::create([
             'title' => $validated['title'],
             'text' => $validated['text'],
-            'image' => $request->file('image')?->store('images'),
+            'image' => $path,
         ]);
 
-        $post->species()->sync($validated['species'] ?? []);
+        if (!empty($validated['species'])) {
+            $post->species()->sync($validated['species']);
+        }
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
