@@ -14,9 +14,10 @@
                         <label for="extra_info">Dit is een nutteloze tekst bedankt voor het posten van 2 of meer posts.</label>
                     </form>
                 @else
-                    <p>Je moet minstens 2 berichten hebben geplaatst om extra informatie toe te voegen aan je profiel.</p>
+                    <p>Plaats minsten 2 berichten om een geheime bericht te zien.</p>
                 @endif
             </div>
+            <br>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4">
                 @foreach($posts as $post)
                     <div class="flex flex-row post pb-4 text-white">
