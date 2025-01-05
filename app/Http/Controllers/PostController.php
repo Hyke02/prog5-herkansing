@@ -41,7 +41,11 @@ class PostController extends Controller
     {
         $posts = Post::where('user_id', auth()->id())->get();
 
-        return view('dashboard', compact('posts'));
+        $user = auth()->user();
+        $postCount = \App\Models\Post::where('user_id', $user->id)->count();
+
+
+        return view('dashboard', compact('posts', 'postCount', 'user'));
     }
 
 
