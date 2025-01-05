@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PostController::class, 'index'])->name('home');
@@ -16,15 +19,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('post', PostController::class)->except(['show']);
+});
 
-    ROute::get('/admin/users', function () {
-        if (auth()->user()->role !== 'admin') {
-            return redirect('/')->with('error', 'Unauthorized access');
-        }
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/home', function () {
+        return app(AdminController::class)->index();
+    })->name('home');
 
-        $users = \App\Models\User::all();
-        return view('admin/users', compact('users'));
-    })->name('admin.users');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 });
 
 Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');

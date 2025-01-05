@@ -14,7 +14,18 @@
     @endif
 </head>
 <body>
-    <nav></nav>
+    <nav class="bg-[#0E1113] border-b-2 border-gray-800">
+        <x-nav-link href="{{ route('home') }}">Home</x-nav-link>
+
+        @auth()
+            <x-nav-link href="{{ route('dashboard') }}">Profile</x-nav-link>
+        @else
+            <div>
+                <x-nav-link href="{{ route('login') }}">Login</x-nav-link>
+                <x-nav-link href="{{ route('register') }}">Register</x-nav-link>
+            </div>
+        @endauth
+    </nav>
     <div class="container">
         <h1>Create a New Post</h1>
 

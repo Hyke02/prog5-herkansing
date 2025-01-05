@@ -56,3 +56,15 @@
 
 <h2>Fixed</h2>
 <li>route post.show be able to be viewed to non logged in users</li>
+
+<h1>04/01/2025</h1>
+
+<h2>Added</h2>
+<li>Admin page to manage users</li>
+<li>Route to the admin page so that only users with the role 'admin' can enter</li>
+
+<h2>Changed</h2>
+<li>Linking to tailwind on all pages</li>
+
+<h2>Fixed</h2>
+<strong>-</strong>

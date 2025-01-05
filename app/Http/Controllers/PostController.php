@@ -69,7 +69,7 @@ class PostController extends Controller
             $post->species()->sync($validated['species']);
         }
 
-        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
+        return redirect()->route('home')->with('success', 'Post created successfully.');
     }
 
     /**

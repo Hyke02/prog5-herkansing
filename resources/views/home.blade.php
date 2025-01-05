@@ -14,9 +14,20 @@
     @endif
 </head>
 <body>
-    <nav></nav>
+    <nav class="flex justify-between bg-[#0E1113] border-b-2 border-gray-800">
+        <x-nav-link href="{{ route('home') }}">Home</x-nav-link>
+
+        @auth()
+            <x-nav-link href="{{ route('dashboard') }}">Profile</x-nav-link>
+        @else
+            <div>
+                <x-nav-link href="{{ route('login') }}">Login</x-nav-link>
+                <x-nav-link href="{{ route('register') }}">Register</x-nav-link>
+            </div>
+        @endauth
+    </nav>
     <div class="flex">
-        <div class="filter-window flex justify-center p-4 bg-[#0E1113] border-r-2 border-gray-800 w-2/12 h-screen">
+        <div class="filter-window flex justify-center p-4 bg-[#0E1113] border-r-2 border-gray-800 w-2/12 h-[calc(100vh-76px)]">
             <form class="flex flex-col items-center" method="GET" action="{{ route('home') }}">
 
                 <div class="mb-5">
@@ -40,7 +51,7 @@
                 <x-primary-button class="mb-5" type="submit">Filter</x-primary-button>
             </form>
         </div>
-        <div class="post-window flex flex-col items-center bg-[#0E1113] w-10/12 h-screen">
+        <div class="post-window flex flex-col items-center bg-[#0E1113] w-10/12 h-[calc(100vh-76px)]">
             @foreach($posts as $post)
                 <a href="{{ route('post.show', $post->id) }}" class="w-2/4 px-6 py-4 m-4 hover:bg-gray-300 rounded">
                     <div>
@@ -57,6 +68,9 @@
                     </div>
                 </a>
             @endforeach
+        </div>
+        <div class="absolute right-10 top-32">
+            <a href="{{ route('post.create') }}" class="text-[#EEF1F3] uppercase">create a post</a>
         </div>
     </div>
 </body>

@@ -36,12 +36,12 @@
                     <td class="border border-gray-300 px-4 py-2">{{ $user->email }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $user->role }}</td>
                     <td class="border border-gray-300 px-4 py-2">
-                        <a href="{{ route('admin.users.edit', $user->id) }}" class="text-blue-500">Edit</a>
-                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline-block">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-500">Delete</button>
-                        </form>
+{{--                        <a href="{{ route('admin.users.edit', $user->id) }}" class="text-blue-500">Edit</a>--}}
+{{--                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline-block">--}}
+{{--                            @csrf--}}
+{{--                            @method('DELETE')--}}
+{{--                            <button type="submit" class="text-red-500">Delete</button>--}}
+{{--                        </form>--}}
                     </td>
                 </tr>
             @endforeach
