@@ -28,6 +28,5 @@
         </p>
         <a href="{{ route('home') }}">Back to Posts</a>
     </div>
-    @auth($post->)
 </body>
 </html>
