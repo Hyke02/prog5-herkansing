@@ -28,11 +28,20 @@ class PostController extends Controller
             });
         }
 
+        $query->where('is_active', 1);
+
         $posts = $query->with('species')->get();
 
         $species = Species::all();
 
         return view('home', compact('posts', 'species'));
+    }
+
+    public function profile()
+    {
+        $posts = Post::where('user_id', auth()->id())->get();
+
+        return view('dashboard', compact('posts'));
     }
 
 
@@ -63,6 +72,8 @@ class PostController extends Controller
             'title' => $validated['title'],
             'text' => $validated['text'],
             'image' => $path,
+            'is_active' => '1',
+            'user_id' => auth()->id(),
         ]);
 
         if (!empty($validated['species'])) {
@@ -132,5 +143,19 @@ class PostController extends Controller
     {
         $post->delete();
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+    }
+
+    public function toggleStatus($id)
+    {
+        $post = Post::findOrFail($id);
+
+        if ($post->user_id !== auth()->id()) {
+            return redirect()->back()->with('error', 'You can only toggle your own posts.');
+        }
+
+        $post->is_active = !$post->is_active;
+        $post->save();
+
+        return redirect()->back()->with('success', 'Post status updated.');
     }
 }

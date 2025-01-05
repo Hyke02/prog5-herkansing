@@ -68,3 +68,14 @@
 
 <h2>Fixed</h2>
 <strong>-</strong>
+
+<h1>05/01/2025</h1>
+
+<h2>Added</h2>
+<li>Middleware for admin pages so that it won't be accessible to users without the admin role</li>
+
+<h2>Changed</h2>
+<li>Worked on Css (tailwind) for some pages</li>
+
+<h2>Fixed</h2>
+<li>Created an admin middleware instead of checking each route for the admin with if statements if the user has an admin role </li>
